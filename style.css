@@ -1,0 +1,162 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    padding-top: 50px;
+    margin: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.piano {
+    position: relative;
+    display: flex;
+    width: min(900px, calc(100vw - 32px));
+    height: 260px;
+    margin: 32px auto 0;
+    touch-action: none;
+}
+
+.key {
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: inherit;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.white-key {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 0 14px;
+    border: 1px solid #30343b;
+    border-radius: 0 0 5px 5px;
+    background: linear-gradient(180deg, #fff 0%, #fff 82%, #f0f1f3 100%);
+    color: #20242a;
+    font-size: 16px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.black-key {
+    position: absolute;
+    top: 0;
+    width: 3.8%;
+    max-width: 42px;
+    height: 62%;
+    padding: 0 0 10px;
+    border: 1px solid #111318;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(90deg, #101216 0%, #292c32 50%, #090a0c 100%);
+    color: white;
+    font-size: 10px;
+    z-index: 2;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.white-key.pressed {
+    background: #dfe3e8;
+}
+
+.black-key.pressed {
+    background: #555b65;
+}
+
+.black-key[data-note="C#4"] {
+    left: 5.5556%;
+}
+
+.black-key[data-note="D#4"] {
+    left: 11.1111%;
+}
+
+.black-key[data-note="F#4"] {
+    left: 22.2222%;
+}
+
+.black-key[data-note="G#4"] {
+    left: 27.7778%;
+}
+
+.black-key[data-note="A#4"] {
+    left: 33.3333%;
+}
+
+.black-key[data-note="C#5"] {
+    left: 44.4444%;
+}
+
+.black-key[data-note="D#5"] {
+    left: 50%;
+}
+
+.black-key[data-note="F#5"] {
+    left: 61.1111%;
+}
+
+.black-key[data-note="G#5"] {
+    left: 66.6667%;
+}
+
+.black-key[data-note="A#5"] {
+    left: 72.2222%;
+}
+
+.black-key[data-note="C#6"] {
+    left: 83.3333%;
+}
+
+.black-key[data-note="D#6"] {
+    left: 88.8889%;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding-top: 32px;
+    }
+
+    .piano {
+        height: min(220px, 48vw);
+    }
+
+    .black-key {
+        font-size: 8px;
+        padding-bottom: 6px;
+    }
+
+    .white-key {
+        font-size: 12px;
+        padding-bottom: 10px;
+    }
+}
+
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px auto;
+    padding: 0 12px;
+}
+
+#volume {
+    width: 180px;
+    cursor: pointer;
+    accent-color: #555;
+}
+
+#volume-value {
+    min-width: 45px;
+    text-align: left;
+    font-size: 14px;
+}

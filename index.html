@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Piano</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+<h1>Mini Piano</h1>
+
+<p>鍵盤を押すと音が鳴ります</p>
+
+<div class="volume-control">
+    <label for="volume">音量</label>
+    <input
+        type="range"
+        id="volume"
+        min="0"
+        max="100"
+        value="50"
+    >
+    <span id="volume-value">50%</span>
+</div>
+
+<div class="piano">
+    <!-- 1オクターブ目 -->
+    <button class="key white-key" data-note="C4">ド</button>
+    <button class="key white-key" data-note="D4">レ</button>
+    <button class="key white-key" data-note="E4">ミ</button>
+    <button class="key white-key" data-note="F4">ファ</button>
+    <button class="key white-key" data-note="G4">ソ</button>
+    <button class="key white-key" data-note="A4">ラ</button>
+    <button class="key white-key" data-note="B4">シ</button>
+
+    <button class="key black-key" data-note="C#4">ド♯</button>
+    <button class="key black-key" data-note="D#4">レ♯</button>
+    <button class="key black-key" data-note="F#4">ファ♯</button>
+    <button class="key black-key" data-note="G#4">ソ♯</button>
+    <button class="key black-key" data-note="A#4">ラ♯</button>
+
+
+    <!-- 2オクターブ目 -->
+    <button class="key white-key" data-note="C5">ド</button>
+    <button class="key white-key" data-note="D5">レ</button>
+    <button class="key white-key" data-note="E5">ミ</button>
+    <button class="key white-key" data-note="F5">ファ</button>
+    <button class="key white-key" data-note="G5">ソ</button>
+    <button class="key white-key" data-note="A5">ラ</button>
+    <button class="key white-key" data-note="B5">シ</button>
+
+    <button class="key black-key" data-note="C#5">ド♯</button>
+    <button class="key black-key" data-note="D#5">レ♯</button>
+    <button class="key black-key" data-note="F#5">ファ♯</button>
+    <button class="key black-key" data-note="G#5">ソ♯</button>
+    <button class="key black-key" data-note="A#5">ラ♯</button>
+
+
+    <!-- 3オクターブ目の途中 -->
+    <button class="key white-key" data-note="C6">ド</button>
+    <button class="key white-key" data-note="D6">レ</button>
+    <button class="key white-key" data-note="E6">ミ</button>
+    <button class="key white-key" data-note="F6">ファ</button>
+
+    <button class="key black-key" data-note="C#6">ド♯</button>
+    <button class="key black-key" data-note="D#6">レ♯</button>
+
+</div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
