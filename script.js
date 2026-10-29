@@ -66,6 +66,120 @@ const activeNotes = {};
 const activePointers = {};
 const keys = document.querySelectorAll(".key");
 
+const DAILY_TIME_STORAGE_KEY = "webpiano-daily-play-time-v1";
+const dailyPlayTimeElement = document.getElementById("daily-play-time");
+
+const dailyPlayTime = (() => {
+    try {
+        const saved = JSON.parse(
+            localStorage.getItem(DAILY_TIME_STORAGE_KEY) || "{}"
+        );
+
+        if (!saved || typeof saved !== "object" || Array.isArray(saved)) {
+            throw new Error("保存された演奏時間の形式が正しくありません。");
+        }
+
+        return saved;
+    } catch (error) {
+        console.error("演奏時間の読み込みに失敗しました。", error);
+        return {};
+    }
+})();
+
+let playingSince = null;
+let canSaveDailyPlayTime = true;
+
+function getLocalDateKey(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function saveDailyPlayTime() {
+    if (!canSaveDailyPlayTime) return;
+
+    try {
+        localStorage.setItem(
+            DAILY_TIME_STORAGE_KEY,
+            JSON.stringify(dailyPlayTime)
+        );
+    } catch (error) {
+        canSaveDailyPlayTime = false;
+        console.error("演奏時間の保存に失敗しました。", error);
+    }
+}
+
+function updateDailyPlayTimeDisplay() {
+    const today = getLocalDateKey(new Date());
+    const savedMilliseconds = Number(dailyPlayTime[today]);
+    const totalSeconds = Math.floor(
+        (Number.isFinite(savedMilliseconds) && savedMilliseconds > 0
+            ? savedMilliseconds
+            : 0) / 1000
+    );
+
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    dailyPlayTimeElement.textContent =
+        `${hours}時間${String(minutes).padStart(2, "0")}分` +
+        `${String(seconds).padStart(2, "0")}秒`;
+}
+
+function flushPlayingTime(now = Date.now()) {
+    if (playingSince === null) return;
+
+    let cursor = playingSince;
+
+    while (cursor < now) {
+        const date = new Date(cursor);
+        const dateKey = getLocalDateKey(date);
+        const nextMidnight = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate() + 1
+        ).getTime();
+        const segmentEnd = Math.min(now, nextMidnight);
+        const savedMilliseconds = Number(dailyPlayTime[dateKey]);
+        const previousMilliseconds =
+            Number.isFinite(savedMilliseconds) && savedMilliseconds > 0
+                ? savedMilliseconds
+                : 0;
+
+        dailyPlayTime[dateKey] =
+            previousMilliseconds + segmentEnd - cursor;
+        cursor = segmentEnd;
+    }
+
+    playingSince = now;
+    saveDailyPlayTime();
+}
+
+function updatePlayingTimer() {
+    const isPlaying = Object.keys(activePointers).length > 0;
+
+    if (isPlaying && playingSince === null) {
+        playingSince = Date.now();
+    } else if (!isPlaying && playingSince !== null) {
+        flushPlayingTime();
+        playingSince = null;
+    }
+
+    updateDailyPlayTimeDisplay();
+}
+
+updateDailyPlayTimeDisplay();
+
+setInterval(() => {
+    if (playingSince !== null) {
+        flushPlayingTime();
+    }
+
+    updateDailyPlayTimeDisplay();
+}, 1000);
 
 // ====================
 // 音を鳴らす
