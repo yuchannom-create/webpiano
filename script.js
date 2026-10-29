@@ -290,6 +290,7 @@ function enterKey(key, pointerId) {
 
     // 新しい音を鳴らす
     startNote(newNote);
+    updatePlayingTimer();
 }
 
 
@@ -360,6 +361,7 @@ document.addEventListener("pointerup", (event) => {
 
     // 記録を削除
     delete activePointers[pointerId];
+    updatePlayingTimer();
 });
 
 
@@ -379,6 +381,7 @@ document.addEventListener("pointercancel", (event) => {
     releaseKey(active.key);
 
     delete activePointers[pointerId];
+    updatePlayingTimer();
 });
 
 // ====================
